@@ -39,19 +39,19 @@ public class Automotive implements Serializable {
 	/* pass the index of the OptionSet through this method and return the length of the Option array within the OptionSet object at the specified index
 	 determines how many options the program has to loop through (eg: 10 options within the Color OptionSet */
 	public int getOptionLength(int opsetIndex) {
-		return opset[opsetIndex].opt.length;
+		return opset[opsetIndex].getOptionLength();
 	}
 	//get the name property of the OptionSet
 	public String getOpsetName(int opsetIndex) {
-		return opset[opsetIndex].name;
+		return opset[opsetIndex].getOptionSetName();
 	}
 	//get the name property of an Option object
 	public String getOptionName(int opsetIndex, int optionIndex) {
-		return opset[opsetIndex].opt[optionIndex].name;
+		return opset[opsetIndex].getOptions(optionIndex).getOptionName();
 	}
 	//get the price property of an Option object
 	public float getOptionPrice(int opsetIndex, int optionIndex) {
-		return opset[opsetIndex].opt[optionIndex].price;
+		return opset[opsetIndex].getOptions(optionIndex).getOptionPrice();
 	}
 	//set the name property of the Automotive object
 	public void setName(String newName) {
@@ -72,47 +72,69 @@ public class Automotive implements Serializable {
 	}
 	//sets the name and price properties of an Option object at the specified index of the Option array within the OptionSet array at the specified index
 	public void setOption(String optionName, int opsetIndex, int optionIndex, float optionPrice) {
-		opset[opsetIndex].opt[optionIndex].name = optionName;
-		opset[opsetIndex].opt[optionIndex].price = optionPrice;	
+		opset[opsetIndex].getOptions(optionIndex).setOptionName(optionName);
+		opset[opsetIndex].getOptions(optionIndex).setOptionPrice(optionPrice);	
 	}
 	
+	//Iterate through the opset array to find if an opset with a matching name exists. if not found, returns a string to be printed saying it could not be found
 	public String findOptionSet(String name) {
 		for (int i = 0; i < opset.length; i++) {
-			if (opset[i].name.equals(name)) {
-				return opset[i].name + " found at index " + i;
+			if (opset[i].getOptionSetName().equals(name)) {
+				return opset[i].getOptionSetName() + " found at index " + i;
 			}
 		}
 		return "object not found";
 	}
+	//iterates through the opset array, then the options array looking for an option with a matching name passed through to the method. if not found, return string saying so.
 	public String findOption(String name) {
 		for (int i = 0; i < opset.length; i++) {
-			for (int j = 0; j < opset[i].opt.length; j++) {
-				if (opset[i].opt[j].name.equals(name)) {
-					return opset[i].opt[j].name + " found in OptionSet " + opset[i].name + " at Option array index " + j;
+			for (int j = 0; j < opset[i].getOptionLength(); j++) {
+				if (opset[i].getOptions(j).getOptionName().equals(name)) {
+					return opset[i].getOptions(j).getOptionName() + " found in OptionSet " + opset[i].getOptionSetName() + " at Option array index " + j;
 				}
 			}
 		}
 		return "option not found";
 	}
 	
+	//delete option set at the index passed to the method, the reconfigure the array
 	public void deleteOptionSet(int index) {
 		for (int i = index; i < opset.length - 1; i++) {
 			opset[i] = opset [i+1];
 		}
 	}
-	
+	//delete option at the opsetindex and optionindex passed through to the method
 	public void deleteOption(int opsetIndex, int optionIndex) {
-		for (int i = optionIndex; i < opset[opsetIndex].opt.length - 1; i++) {
-			opset[opsetIndex].opt[i] = opset[opsetIndex].opt[i+1];
+		opset[opsetIndex].deleteOption(optionIndex);
+	}
+	//sets a new name for the specified option set
+	public void updateOptionSet(int opsetIndex, String newOpsetName) {
+		opset[opsetIndex].setOptionSetName(newOpsetName);
+	}
+	//sets a new name and price for the specified option in the specified option set
+	public void updateOption(int opsetIndex, int optionIndex, String newOptionName, float newOptionPrice) {
+		opset[opsetIndex].getOptions(optionIndex).setOptionName(newOptionName);
+		opset[opsetIndex].getOptions(optionIndex).setOptionPrice(newOptionPrice);
+	}
+	
+	//prints the properties of the Automotive object
+	public void printAuto() {
+		
+		System.out.println(name);
+		System.out.println(baseprice);
+		/* Outer loop iterates through the OptionSet array opset within the testCar object and prints the name of each OptionSet object.
+		  Inner loop iterates through the Option array within an OptionSet object and prints the name and price of each Option object */
+		for(int i = 0; i < opset.length; i++) {
+			System.out.println("************************");
+			System.out.println(opset[i].getOptionSetName());
+			System.out.println("************************");
+			for (int j = 0; j < opset[i].getOptionLength(); j++) {
+				System.out.println(opset[i].getOptions(j).getOptionName());
+				System.out.println(opset[i].getOptions(j).getOptionPrice());
+			}
 		}
 	}
 	
-	public void updateOptionSet(int opsetIndex, String newOpsetName) {
-		opset[opsetIndex].name = newOpsetName;
-	}
 	
-	public void updateOption(int opsetIndex, int optionIndex, String newOptionName, float newOptionPrice) {
-		opset[opsetIndex].opt[optionIndex].name = newOptionName;
-		opset[opsetIndex].opt[optionIndex].price = newOptionPrice;
-	}
+	
 }

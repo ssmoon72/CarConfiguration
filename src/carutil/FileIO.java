@@ -177,5 +177,49 @@ public class FileIO {
 		return a1;
 	}
 	
+	public void serializeAuto(Automotive a1) {
+		try {
+			FileOutputStream automobileFile = new FileOutputStream("auto.dat");
+			ObjectOutputStream out = new ObjectOutputStream(automobileFile);
+			
+			out.writeObject(a1);
+			
+			out.close();
+			automobileFile.close();
+			
+			System.out.println("********************************");
+			System.out.println("object serialized successfully");
+			System.out.println("********************************");
+			
+		} 
+		catch (Exception e) {
+			System.out.println("Error: " + e);
+		}	
+	}
+	
+	public Automotive deserializeAuto() {
+		
+		Automotive a1 = new Automotive();
+		
+		try {
+			FileInputStream automobileFile = new FileInputStream("auto.dat");
+			ObjectInputStream in = new ObjectInputStream(automobileFile);
+			
+			a1 = (Automotive)in.readObject();
+			
+			in.close();
+			automobileFile.close();
+			
+			System.out.println("********************************");
+			System.out.println("object deserialized successfully");
+			System.out.println("********************************");
+			
+			return a1;
+		}
+		catch (Exception e) {
+			System.out.println("Error: " + e);
+		}
+		return a1;
+	}
 
 }
