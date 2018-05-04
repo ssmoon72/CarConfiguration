@@ -25,6 +25,8 @@ public class Driver {
 		
 		System.out.println("After Deserializing new object");
 		testCar2.printAuto();
+		
+
 	}
 	
 }

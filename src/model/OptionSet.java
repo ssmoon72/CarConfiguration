@@ -22,7 +22,7 @@ public class OptionSet implements Serializable {
 			opt[i] = new Option();
 		}
 	}
-	
+
 	protected String getOptionSetName() {
 		return name;
 	}
@@ -38,11 +38,15 @@ public class OptionSet implements Serializable {
 	}
 	protected void deleteOption(int optionIndex) {
 		for (int i = optionIndex; i < opt.length - 1; i++) {
-//			Option tempOption = opset[opsetIndex].getOptions(i);
-//			opset[opsetIndex].opt[i] = opset[opsetIndex].opt[i+1];
 			opt[i] = opt[i+1];
 		}
-
+	}
+	protected void printOptionSet() {
+		System.out.println(this.name);
+		for (int i = 0; i < opt.length; i++) {
+			System.out.println(opt[i].getOptionName());
+			System.out.println(opt[i].getOptionPrice());
+		}
 	}
 	
 	//not giving an inner class a keyword makes it a protected class, accessible only to classes within its specific package
@@ -51,6 +55,11 @@ public class OptionSet implements Serializable {
 		//name and price properties for an Option object
 		private String name;
 		private float price;
+		
+		Option() {
+			this.name = null;
+			this.price = 0;
+		}
 		
 		protected String getOptionName() {
 			return name;
@@ -63,6 +72,10 @@ public class OptionSet implements Serializable {
 		}
 		protected void setOptionPrice(float optionPrice) {
 			this.price = optionPrice;
+		}
+		protected void printOption() {
+			System.out.println(this.name);
+			System.out.println(this.price);
 		}
 		
 	}

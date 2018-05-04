@@ -17,10 +17,7 @@ public class FileIO {
 			BufferedReader buff = new BufferedReader(file);
 			//this boolean will be used to determine the end of the text file
 			boolean eof = false;
-			//opsetIndex determines index within the opset array in the Automotive class
-			int opsetIndex = 0;
-			//optionIndex determines index within the opt array in the Option class
-			int optionIndex = 0;
+
 			
 			//this loop executes until the file is completed
 			while(!eof) {
@@ -31,141 +28,63 @@ public class FileIO {
 					eof = true;
 				}
 				else {
-					//set up array of strings in variable "tokenize" where each element is determined by a "," character
-					String[] tokenize =  line.split(",");
+					//create a string array from the text file with. separate each index by "," in the text file
+					String[] vehicleComponents = line.split(",");
+					//Set name, price, and size of the option set of the Automotive object since they will always be at index 0, 1, and 2
+					a1.setName(vehicleComponents[0]);
+					a1.setPrice(Float.parseFloat(vehicleComponents[1]));
+					//Parse the string to an integer and store in a variable for readability
+					int optionSetSize = Integer.parseInt(vehicleComponents[2]);
+					a1.setOpsetSize(optionSetSize);
 					
-					//set the name of the car model. in this case: Ford Wagon ZTW
-					String tempName = tokenize[0];
-					a1.setName(tempName);
+					/* This variable will be used to iterate through the text file and assign the options to the Option objects. The "3" comes from the third index
+					 * which is the name of the first Option Set. optionSetSize is the length of the OptionSet array we just made. Multiply it by 2 because the way 
+					 * my Text file is set up, you have the 5 names of the OptionSets followed by the 5 sizes of the Option arrays within each OptionSet. This should
+					 * work with any number of OptionSet objects. For 5 OptionSet elements, this variable equals to 13. vehicleComponents[13] is the first Color option name.
+					 * For 6 OptionSet elements, this variable would equal to 15 which wouldstill be the first Color Option name.
+					 *  The indexPointer variable is the same for now, but will change later. */
+					int nextVehicleComponentIndex = 3 + (optionSetSize * 2);
+					int indexPointer = 3 + (optionSetSize * 2);
 					
-					//set the base price of the car
-					float tempPrice = Float.parseFloat(tokenize[1]);
-					a1.setPrice(tempPrice);
-					
-					//set the size of the OptionSet array
-					int tempSize = Integer.parseInt(tokenize[2]);
-					a1.setOpsetSize(tempSize);
-					
-					//Set the name of the OptionSet element (color, brakes, etc.) and how many options are within the opt array
-					String tempOpsetName = tokenize[3];
-					int tempOptionQty = Integer.parseInt(tokenize[4]);
-					a1.setOpSet(tempOpsetName, opsetIndex, tempOptionQty);
-					
-					/*this code block goes through the text file line by line to populate the Colors option set with the different options
-					 TODO: Find a way to make a loop algorithm work when populating OptionSet and Options. Too much repeated code.*/
-					String tempOptionName = tokenize[5];
-					float tempOptionPrice = Float.parseFloat(tokenize[6]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					//increment optionIndex to populate the next option
-					optionIndex++;
-					tempOptionName = tokenize[7];
-					tempOptionPrice = Float.parseFloat(tokenize[8]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[9];
-					tempOptionPrice = Float.parseFloat(tokenize[10]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[11];
-					tempOptionPrice = Float.parseFloat(tokenize[12]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[13];
-					tempOptionPrice = Float.parseFloat(tokenize[14]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[15];
-					tempOptionPrice = Float.parseFloat(tokenize[16]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[17];
-					tempOptionPrice = Float.parseFloat(tokenize[18]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[19];
-					tempOptionPrice = Float.parseFloat(tokenize[20]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[21];
-					tempOptionPrice = Float.parseFloat(tokenize[22]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[23];
-					tempOptionPrice = Float.parseFloat(tokenize[24]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					
-					//reset the optionIndex and increment the opsetIndex
-					optionIndex = 0;
-					opsetIndex++;
-					
-					//this code block is for populating the Transmissiion OptionSet
-					tempOpsetName = tokenize[25];
-					tempOptionQty = Integer.parseInt(tokenize[26]);
-					a1.setOpSet(tempOpsetName, opsetIndex, tempOptionQty);
-					tempOptionName = tokenize[27];
-					tempOptionPrice = Float.parseFloat(tokenize[28]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[29];
-					tempOptionPrice = Float.parseFloat(tokenize[30]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					
-					optionIndex = 0;
-					opsetIndex++;
-					
-					//populate the Brakes OptionSet
-					tempOpsetName = tokenize[31];
-					tempOptionQty = Integer.parseInt(tokenize[32]);
-					a1.setOpSet(tempOpsetName, opsetIndex, tempOptionQty);
-					tempOptionName = tokenize[33];
-					tempOptionPrice = Float.parseFloat(tokenize[34]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[35];
-					tempOptionPrice = Float.parseFloat(tokenize[36]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					tempOptionName = tokenize[37];
-					optionIndex++;
-					tempOptionPrice = Float.parseFloat(tokenize[38]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					
-					optionIndex = 0;
-					opsetIndex++;
-					
-					//Populate the airbag OptionSet
-					tempOpsetName = tokenize[39];
-					tempOptionQty = Integer.parseInt(tokenize[40]);
-					a1.setOpSet(tempOpsetName, opsetIndex, tempOptionQty);
-					tempOptionName = tokenize[41];
-					tempOptionPrice = Float.parseFloat(tokenize[42]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[43];
-					tempOptionPrice = Float.parseFloat(tokenize[44]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					
-					optionIndex = 0;
-					opsetIndex++;
-					
-					//populate the moonroof OptionSet
-					tempOpsetName = tokenize[45];
-					tempOptionQty = Integer.parseInt(tokenize[46]);
-					a1.setOpSet(tempOpsetName, opsetIndex, tempOptionQty);
-					tempOptionName = tokenize[47];
-					tempOptionPrice = Float.parseFloat(tokenize[48]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					optionIndex++;
-					tempOptionName = tokenize[49];
-					tempOptionPrice = Float.parseFloat(tokenize[50]);
-					a1.setOption(tempOptionName, opsetIndex, optionIndex, tempOptionPrice);
-					
-					optionIndex = 0;
-					opsetIndex++;
-					
-					
-					
+					//I want this loop to execute once for each OptionSet that is created, in this example, 5
+					for (int i = 0; i < optionSetSize; i++) {
+						/* The OptionSet names are lined up in the text file one right after the other starting at index 3. Add i to get the index of the next 
+						 * OptionSet name */
+						String optionSetName = vehicleComponents[3+i];
+						/* parse the String into an integer variable for readability. Index 3 + the option set size + the number of times looped will result
+						   in the index of each OptionSet's Option array size */
+						int optionArraySize = Integer.parseInt(vehicleComponents[3+optionSetSize+i]);
+						//Pass the name, OptionSet index, and size of the Option array at that OptionSet index to the setOpSet method.
+						a1.setOpSet(optionSetName, i, optionArraySize);
+						
+						//Establish a variable to keep track of the index of the Option array.
+						int optionIndex = 0;
+						
+						/* set the nextVehicleComponentIndex variable equal to the indexPointer. the first iteration of the outer loop they will be
+						 * the same but this matters for future iterations */
+						nextVehicleComponentIndex = indexPointer;
+						
+						/* This inner for loop populates the Option array at opset[i] in the Automotive object. The loop starts at nextVehicleComponentIndex
+						 * and iterates through the next (optionArraySize * 2) indices by increments of 2. What that means is, for example, the Color 
+						 * OptionSet has an Option array size of 10. nextVehicleComponentIndex is 13 for 5 OptionSets. You multiply the Array size by 2
+						 * because each option has a price associated with it. On the first iteration of the outer loop, this inner loop goes from index 13
+						 * to index 33, incrementing by 2 every time because every odd index will be the name and every even index will be the price */
+						for (int j = nextVehicleComponentIndex; j < nextVehicleComponentIndex + (optionArraySize *2); j+=2) {
+							String optionName = vehicleComponents[j];
+							float optionPrice = Float.parseFloat(vehicleComponents[j+1]);
+							//Pass the name, Option Set index, optionIndex, and optionPrice to the setOption method to create the Option object
+							a1.setOption(optionName, i, optionIndex, optionPrice);
+							//increment the optionIndex by 1 to populate the next option object on the next iteration of the loop
+							optionIndex++;
+							/* at the end of loop, set the indexPointer to the index of the next Option name. For example: on the first iteration of the 
+							 * outer loop and the last iteration of this inner loop, j ends up equaling 31. Add 2 to that and you get vehicleComponents[33]
+							 * which is the name of the first Transmission option. When you set nextVehicleComponentIndex to indexPointer on the second iteration
+							 * of the outer loop, it means the next inner loop will start at index 33 and run until index 37 */
+							indexPointer = j + 2;
+						}
+					}
 				}
-			}
+			} 
 			//close the buffered reader once the end of file is reached
 			buff.close();
 		}
